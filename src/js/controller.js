@@ -10,10 +10,6 @@ import addRecipeView from './views/addRecipeView.js';
 import 'core-js/stable'; //polyfilling everything else
 import 'regenerator-runtime/runtime'; //polyfilling async/await
 
-// if (module.hot) {
-//   module.hot.accept();
-// }
-
 const controlRecipes = async function () {
   try {
     const id = window.location.hash.slice(1);
@@ -51,7 +47,6 @@ const controlSearchResults = async function () {
     await model.loadRecipeResults(query);
 
     // 3) Render search results
-    // console.log(model.state.search.results);
     // resultsView.render(model.state.search.results); //Old way
     resultsView.render(model.getSearchResultsPage());
 
@@ -76,7 +71,6 @@ const controlServings = function (newServings) {
   model.updateServings(newServings);
 
   // update the recipe view
-  // recipeView.render(model.state.recipe);
   recipeView.update(model.state.recipe);
 };
 
@@ -137,6 +131,5 @@ const init = function () {
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
   addRecipeView.addHandlerUpload(controlAddRecipe);
-  console.log('Welcome!!');
 };
 init();
