@@ -15,6 +15,7 @@ export const state = {
 };
 
 const createRecipeObject = function (data) {
+  console.log(data);
   const { recipe } = data.data;
   return {
     id: recipe.id,
@@ -33,8 +34,6 @@ export const loadRecipe = async function (id) {
   try {
     const data = await AJAX(`${API_URL}${id}?key=${KEY}`);
     state.recipe = createRecipeObject(data);
-
-    // console.log(res, data.data.recipe);
 
     if (state.bookmarks.some(bookmark => bookmark.id === id))
       state.recipe.bookmarked = true;
@@ -126,11 +125,12 @@ const clearBookmarks = function () {
   localStorage.clear('bookmarks');
 };
 // clearBookmarks();
+
 export const uploadRecipe = async function (newRecipe) {
   try {
     console.log(newRecipe);
     // console.log(Object.entries(newRecipe));
-    const ingredients = Object.entries(newRecipe)
+    const ingredients = Object.entries(newRecipe) //converts object to array
       .filter(entry => entry[0].startsWith('ingredient') && entry[1] !== '')
       .map(ing => {
         // const ingArr = ing[1].replaceAll(' ', '').split(',');
@@ -142,7 +142,7 @@ export const uploadRecipe = async function (newRecipe) {
         const [quantity, unit, description] = ingArr;
         return { quantity: quantity ? +quantity : null, unit, description };
       });
-    //converts object to array
+
     const recipe = {
       title: newRecipe.title,
       source_url: newRecipe.sourceUrl,
